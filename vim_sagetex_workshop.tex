@@ -258,7 +258,7 @@ fib_sequence = fibonacci(10)
 \vimcmd{:w} & Save file \\
 \vimcmd{:!pdflatex \%} & Compile current file \\
 \vimcmd{:!sage \%} & Process SageTeX \\
-\vimcmd{/\\section} & Search for sections \\
+\vimcmd{/\textbackslash section}
 \vimcmd{ci\{} & Change inside braces \\
 \vimcmd{dat} & Delete around tag \\
 \vimcmd{gq} & Format paragraph \\
@@ -294,7 +294,7 @@ In Vim, you can create a macro for this:
 \begin{sagesilent}
 # Implement Newton's method here
 # def newton_method(f, df, x0, iterations):
-#     pass
+     pass
 \end{sagesilent}
 
 \exercise{Challenge 3} Use Vim's visual block mode to create a matrix in LaTeX:
