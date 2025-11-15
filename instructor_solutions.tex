@@ -1,0 +1,222 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{sagetex}
+
+\geometry{margin=1in}
+\title{Workshop Solutions - Instructor Guide}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Exercise Solutions}
+
+\textbf{Exercise 3 - Vim Macro Solution:}
+
+The macro transforms plain text to LaTeX list items:
+\begin{verbatim}
+qa               " Start recording macro 'a'
+0                " Go to beginning of line  
+i\item <Space>   " Insert \item and space
+<Esc>            " Exit insert mode
+j                " Move to next line
+q                " Stop recording
+3@a              " Replay macro 3 times
+\end{verbatim}
+
+Result:
+\begin{itemize}
+\item Linear Algebra
+\item Calculus III  
+\item Abstract Algebra
+\item Real Analysis
+\end{itemize}
+
+\textbf{Exercise 4 - Basic SageTeX:}
+
+\begin{sagesilent}
+# Pythagorean triple example
+a = 5
+b = 12
+c = sqrt(a**2 + b**2)
+\end{sagesilent}
+
+The Pythagorean triple: $a = \sage{a}$, $b = \sage{b}$, $c = \sage{c}$
+
+\textbf{Exercise 7 - Visual Block Solution:}
+
+To comment multiple lines:
+\begin{verbatim}
+1. Ctrl+V to enter visual block mode
+2. Select the beginning of lines with j/k
+3. I to insert at beginning
+4. Type "% "
+5. Esc to apply to all selected lines
+\end{verbatim}
+
+\textbf{Exercise 10 - Fibonacci Complete Solution:}
+
+\begin{sagesilent}
+def fibonacci(n):
+    """Generate first n Fibonacci numbers"""
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    elif n == 2:
+        return [0, 1]
+    else:
+        fib = [0, 1]
+        for i in range(2, n):
+            fib.append(fib[i-1] + fib[i-2])
+        return fib
+
+# Analyze the sequence
+fib_sequence = fibonacci(15)
+golden_ratio = (1 + sqrt(5)) / 2
+ratio_convergence = [float(fib_sequence[i+1]/fib_sequence[i]) 
+                     for i in range(2, 14)]
+\end{sagesilent}
+
+Fibonacci sequence (first 15): \sage{fib_sequence}
+
+Golden ratio: $\phi = \sage{golden_ratio.n(digits=6)}$
+
+Convergence to golden ratio:
+\sage{[round(r, 6) for r in ratio_convergence[-5:]]}
+
+\section*{Challenge Solutions}
+
+\textbf{Challenge 1 - Derivative Table Macro:}
+
+Record this macro:
+\begin{verbatim}
+qa
+yy5p                  " Copy line and paste 5 times
+:%s/n/1/g            " Replace n with 1,2,3,4,5 manually
+q
+\end{verbatim}
+
+\begin{sagesilent}
+powers = range(1, 6)
+\end{sagesilent}
+
+\begin{tabular}{|c|c|}
+\hline
+$f(x)$ & $f'(x)$ \\
+\hline
+$x$ & $1$ \\
+$x^2$ & $2x$ \\
+$x^3$ & $3x^2$ \\
+$x^4$ & $4x^3$ \\
+$x^5$ & $5x^4$ \\
+\hline
+\end{tabular}
+
+\textbf{Challenge 2 - Newton's Method:}
+
+\begin{sagesilent}
+def newton_method(f, df, x0, iterations):
+    """Implement Newton-Raphson method"""
+    points = [x0]
+    x = x0
+    for i in range(iterations):
+        x = x - f(x)/df(x)
+        points.append(float(x))
+    return points
+
+# Example: finding sqrt(2)
+f(x) = x^2 - 2
+df(x) = 2*x
+x0 = 1.5
+iterations = 5
+results = newton_method(f, df, x0, iterations)
+
+# Create visualization
+p = plot(f, (x, 0, 2.5), color='blue', thickness=2)
+p += line([(0,0), (2.5,0)], color='black', linestyle='--')
+p += point((sqrt(2), 0), size=40, color='red')
+
+# Add tangent lines
+for i in range(2):
+    xi = results[i]
+    yi = f(xi)
+    slope = df(xi)
+    tangent = lambda t: yi + slope*(t - xi)
+    p += plot(tangent, (x, max(0, xi-0.5), min(2.5, xi+0.5)), 
+              color='green', thickness=1, alpha=0.5)
+    p += point((xi, yi), size=30, color='orange')
+\end{sagesilent}
+
+Newton's Method for $f(x) = x^2 - 2$:
+
+Iterations from $x_0 = \sage{x0}$:
+\begin{itemize}
+\item $x_0 = \sage{round(results[0], 6)}$
+\item $x_1 = \sage{round(results[1], 6)}$
+\item $x_2 = \sage{round(results[2], 6)}$
+\item $x_3 = \sage{round(results[3], 6)}$
+\item $x_4 = \sage{round(results[4], 6)}$
+\end{itemize}
+
+Actual value: $\sqrt{2} = \sage{sqrt(2).n(digits=6)}$
+
+\sageplot[width=0.6\textwidth]{p}
+
+\textbf{Challenge 3 - Visual Block Matrix:}
+
+Steps to create LaTeX matrix:
+\begin{verbatim}
+1. Visual block select all numbers (Ctrl+V)
+2. Add & between columns
+3. Add \\ at end of lines
+4. Surround with \begin{pmatrix} ... \end{pmatrix}
+\end{verbatim}
+
+Result:
+\[
+\begin{pmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\  
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1
+\end{pmatrix}
+\]
+
+\section*{Teaching Notes}
+
+\subsection*{Common Student Difficulties}
+
+\begin{enumerate}
+\item \textbf{Mode confusion}: Students often forget which mode they're in
+   \begin{itemize}
+   \item Solution: Encourage frequent Esc pressing
+   \item Show them :set showmode
+   \end{itemize}
+
+\item \textbf{Sage compilation errors}: Missing semicolons or Python syntax
+   \begin{itemize}
+   \item Solution: Check .sagetex.sage file directly
+   \item Run sage interactively to test code
+   \end{itemize}
+
+\item \textbf{Visual block selection}: Getting exact selection
+   \begin{itemize}
+   \item Solution: Use o to switch corners
+   \item Practice with simple examples first
+   \end{itemize}
+\end{enumerate}
+
+\subsection*{Time Management Tips}
+
+\begin{itemize}
+\item Have students pair up for exercises
+\item Pre-compile the document to save time
+\item Keep a "rescue" version ready
+\item Use screen sharing for demonstrations
+\item Have cheat sheets printed and ready
+\end{itemize}
+
+\end{document}

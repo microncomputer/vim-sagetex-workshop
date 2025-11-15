@@ -1,0 +1,132 @@
+\documentclass[10pt,landscape]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{array}
+
+\definecolor{cmdcolor}{RGB}{0,100,0}
+\newcommand{\cmd}[1]{{\color{cmdcolor}\texttt{#1}}}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Vim + LaTeX Quick Reference}}
+\end{center}
+
+\begin{multicols}{3}
+
+\section*{Movement}
+\begin{tabular}{ll}
+\cmd{h,j,k,l} & left, down, up, right \\
+\cmd{w,b} & next/prev word \\
+\cmd{W,B} & next/prev WORD \\
+\cmd{0,\$} & start/end of line \\
+\cmd{\^{}} & first non-blank char \\
+\cmd{gg,G} & start/end of file \\
+\cmd{5G} & go to line 5 \\
+\cmd{\%} & matching bracket \\
+\cmd{]] [[} & next/prev section \\
+\end{tabular}
+
+\section*{LaTeX Text Objects}
+\begin{tabular}{ll}
+\cmd{ci\{} & change inside \{\} \\
+\cmd{da\$} & delete around \$\$ \\
+\cmd{vi(} & select inside () \\
+\cmd{dit} & delete inner tag \\
+\cmd{ci"} & change inside quotes \\
+\cmd{dap} & delete paragraph \\
+\cmd{cas} & change a sentence \\
+\end{tabular}
+
+\section*{Editing}
+\begin{tabular}{ll}
+\cmd{i,a} & insert/append \\
+\cmd{I,A} & insert/append line \\
+\cmd{o,O} & new line below/above \\
+\cmd{r} & replace character \\
+\cmd{cw} & change word \\
+\cmd{cc} & change line \\
+\cmd{dd} & delete line \\
+\cmd{yy} & yank (copy) line \\
+\cmd{p,P} & paste after/before \\
+\cmd{u} & undo \\
+\cmd{Ctrl-r} & redo \\
+\cmd{.} & repeat last command \\
+\end{tabular}
+
+\section*{Visual Mode}
+\begin{tabular}{ll}
+\cmd{v} & character selection \\
+\cmd{V} & line selection \\
+\cmd{Ctrl-v} & block selection \\
+\cmd{gv} & reselect last \\
+\cmd{o} & other end of selection \\
+\cmd{I} & insert (block mode) \\
+\cmd{A} & append (block mode) \\
+\end{tabular}
+
+\section*{Search/Replace}
+\begin{tabular}{ll}
+\cmd{/pattern} & search forward \\
+\cmd{?pattern} & search backward \\
+\cmd{n,N} & next/prev result \\
+\cmd{*} & search word under cursor \\
+\cmd{:s/old/new/} & replace first \\
+\cmd{:s/old/new/g} & replace all in line \\
+\cmd{:\%s/old/new/g} & replace all in file \\
+\cmd{:\%s/old/new/gc} & with confirmation \\
+\end{tabular}
+
+\section*{LaTeX Specific}
+\begin{tabular}{ll}
+\cmd{[]} & jump between sections \\
+\cmd{gq} & format paragraph \\
+\cmd{:set spell} & spell check \\
+\cmd{z=} & spelling suggestions \\
+\cmd{]s,[s} & next/prev misspelled \\
+\end{tabular}
+
+\section*{Macros}
+\begin{tabular}{ll}
+\cmd{qa} & record macro 'a' \\
+\cmd{q} & stop recording \\
+\cmd{@a} & play macro 'a' \\
+\cmd{@@} & repeat last macro \\
+\cmd{5@a} & play macro 5 times \\
+\end{tabular}
+
+\section*{Marks \& Registers}
+\begin{tabular}{ll}
+\cmd{ma} & set mark 'a' \\
+\cmd{'a} & jump to mark 'a' \\
+\cmd{`a} & jump to exact position \\
+\cmd{"ay} & yank into register 'a' \\
+\cmd{"ap} & paste from register 'a' \\
+\cmd{:reg} & show registers \\
+\end{tabular}
+
+\section*{File Commands}
+\begin{tabular}{ll}
+\cmd{:w} & save \\
+\cmd{:q} & quit \\
+\cmd{:wq} & save and quit \\
+\cmd{:q!} & quit without saving \\
+\cmd{:e file} & edit file \\
+\cmd{:!command} & shell command \\
+\end{tabular}
+
+\section*{Compilation}
+\begin{tabular}{ll}
+\cmd{:!pdflatex \%} & compile current \\
+\cmd{:!sage \%.sagetex.sage} & run sage \\
+\cmd{:make} & run makefile \\
+\end{tabular}
+
+\end{multicols}
+
+\end{document}

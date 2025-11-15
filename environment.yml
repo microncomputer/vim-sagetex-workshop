@@ -1,0 +1,27 @@
+name: vim-sagetex-workshop
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # Core software
+  - python=3.10
+  - sagemath=10.0
+  - vim=9.0
+  - make
+  - git
+  
+  # LaTeX packages
+  - texlive-core
+  - texlive-latex-recommended
+  - texlive-latex-extra
+  - texlive-fonts-recommended
+  - texlive-science
+  
+  # Jupyter for the interface
+  - jupyterlab=3
+  - notebook
+  
+  # Additional tools
+  - pip
+  - pip:
+    - sagetex

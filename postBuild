@@ -1,0 +1,207 @@
+#!/bin/bash
+set -e
+
+echo "================================================"
+echo "Setting up Vim + SageTeX Workshop Environment"
+echo "================================================"
+
+# Create workshop directory
+mkdir -p ~/workshop
+cd ~/workshop
+
+# Configure Vim with helpful settings for the workshop
+echo "Configuring Vim for LaTeX editing..."
+cat << 'EOF' > ~/.vimrc
+" Workshop Vim Configuration
+" Basic settings
+set nocompatible
+filetype plugin indent on
+syntax enable
+set encoding=utf-8
+
+" Display settings
+set number          " Show line numbers
+set ruler           " Show cursor position
+set showcmd         " Show partial commands
+set showmode        " Show current mode
+set wildmenu        " Better command completion
+set laststatus=2    " Always show status line
+
+" Indentation settings for LaTeX
+set expandtab       " Use spaces instead of tabs
+set tabstop=2       " Tab width
+set shiftwidth=2    " Indent width
+set autoindent      " Auto indent new lines
+set smartindent     " Smart indentation
+
+" Search settings
+set hlsearch        " Highlight search results
+set incsearch       " Incremental search
+set ignorecase      " Case insensitive search
+set smartcase       " Unless uppercase is used
+
+" LaTeX specific shortcuts - these will speed up editing
+" Type ;m in insert mode for inline math
+autocmd FileType tex inoremap ;m \(\)<Esc>i
+" Type ;M for display math
+autocmd FileType tex inoremap ;M \[\]<Esc>i
+" Type ;b for bold text
+autocmd FileType tex inoremap ;b \textbf{}<Esc>i
+" Type ;i for italic text
+autocmd FileType tex inoremap ;i \textit{}<Esc>i
+" Type ;s for new section
+autocmd FileType tex inoremap ;s \section{}<Esc>i
+" Type ;ss for subsection
+autocmd FileType tex inoremap ;ss \subsection{}<Esc>i
+" Type ;it for \item
+autocmd FileType tex inoremap ;it \item<Space>
+
+" Function key mappings for compilation
+" F5 - Quick compile with pdflatex
+autocmd FileType tex nmap <F5> :w<CR>:!cd %:p:h && pdflatex %:t<CR>
+" F6 - Full compile with SageTeX
+autocmd FileType tex nmap <F6> :w<CR>:!cd %:p:h && make all<CR>
+" F7 - View PDF (will open in JupyterLab)
+autocmd FileType tex nmap <F7> :!cd %:p:h && xdg-open %:t:r.pdf &<CR><CR>
+
+" Better colors for terminal
+set background=dark
+if has('termguicolors')
+  set termguicolors
+endif
+
+" Make backspace work as expected
+set backspace=indent,eol,start
+
+" Helpful for workshop
+set confirm         " Ask to save changes
+set mouse=a        " Enable mouse support
+set clipboard=unnamedplus  " Use system clipboard
+EOF
+
+# Test that Sage is working
+echo "Testing SageMath installation..."
+sage -c "
+from sage.all import *
+print('✓ SageMath is working correctly!')
+print(f'  Version: {sage.version.version}')
+"
+
+# Test that LaTeX is working
+echo "Testing LaTeX installation..."
+pdflatex -version | head -n 1
+
+# Create a welcome file with instructions
+cat << 'EOF' > ~/workshop/WELCOME.txt
+========================================
+ Vim + SageTeX Workshop Environment
+========================================
+
+QUICK START:
+-----------
+1. You're currently in JupyterLab
+2. Click File → New → Terminal (or click Terminal icon)
+3. In terminal, type:
+   cd ~/workshop
+   vim vim_sagetex_workshop.tex
+
+COMPILATION:
+-----------
+Inside Vim:
+- Press F5 for quick LaTeX compile
+- Press F6 for full SageTeX compile
+
+Or in terminal:
+- make all        (full SageTeX compilation)
+- make quick      (LaTeX only, no Sage)
+
+VIM BASICS:
+----------
+- i               Enter insert mode (start typing)
+- Esc             Return to normal mode
+- :w              Save file
+- :q              Quit vim
+- :wq             Save and quit
+- dd              Delete line
+- yy              Copy line  
+- p               Paste
+
+VIEWING PDFs:
+------------
+- In JupyterLab file browser, double-click any .pdf file
+- Or in vim, press F7 to open current document's PDF
+
+WORKSHOP FILES:
+--------------
+- vim_sagetex_workshop.tex    Main workshop document
+- vim_latex_quickref.tex      Quick reference card
+- test_sagetex.tex           Simple test file
+
+Need help? Check the workshop document itself - it has 
+all instructions embedded as exercises!
+
+========================================
+EOF
+
+# Create a simple test file to verify everything works
+cat << 'EOF' > ~/workshop/test_sagetex.tex
+\documentclass[11pt]{article}
+\usepackage{sagetex}
+\usepackage{amsmath}
+
+\title{Test SageTeX Document}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Testing Basic Sage}
+Let's verify SageTeX is working: $2 + 2 = \sage{2+2}$
+
+\begin{sagesilent}
+# Define a function
+f(x) = x^3 - 3*x^2 + 2*x
+df = diff(f, x)
+\end{sagesilent}
+
+\section{Testing Calculus}
+Given $f(x) = \sage{f(x)}$
+
+The derivative is: $f'(x) = \sage{df}$
+
+\section{Testing Linear Algebra}
+\begin{sagesilent}
+A = matrix([[1, 2], [3, 4]])
+det_A = A.det()
+\end{sagesilent}
+
+Matrix $A = \sage{A}$ has determinant $\sage{det_A}$
+
+\end{document}
+EOF
+
+# Try to compile the test document
+echo "Testing compilation process..."
+cd ~/workshop
+pdflatex test_sagetex.tex >/dev/null 2>&1 || true
+sage test_sagetex.sagetex.sage >/dev/null 2>&1 || true
+pdflatex test_sagetex.tex >/dev/null 2>&1 || true
+
+if [ -f test_sagetex.pdf ]; then
+    echo "✓ Test compilation successful!"
+else
+    echo "⚠ Test compilation needs manual run (this is normal)"
+fi
+
+echo ""
+echo "================================================"
+echo " Workshop Environment Ready!"
+echo "================================================"
+echo ""
+echo "Next steps:"
+echo "1. Open a terminal (File → New → Terminal)"
+echo "2. Type: cd ~/workshop"
+echo "3. Type: vim vim_sagetex_workshop.tex"
+echo ""
+echo "Or read ~/workshop/WELCOME.txt for full instructions"
+echo ""

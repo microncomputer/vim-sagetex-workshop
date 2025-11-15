@@ -1,0 +1,312 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{sagetex}
+
+\geometry{margin=1in}
+
+% Define colors for vim commands
+\definecolor{vimcolor}{RGB}{0,100,0}
+\definecolor{exercisecolor}{RGB}{0,0,139}
+
+% Custom commands for the workshop
+\newcommand{\vimcmd}[1]{{\color{vimcolor}\texttt{#1}}}
+\newcommand{\exercise}[1]{{\color{exercisecolor}\textbf{Exercise #1:}}}
+
+\title{Interactive Workshop: Vim + SageMath + SageTeX}
+\author{Mathematics Department Workshop}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Workshop Overview}
+Today we'll learn to efficiently edit LaTeX documents using Vim while integrating computational mathematics through SageTeX. Keep this document open in Vim and follow along!
+
+%==============================================================================
+% VIM EXERCISE 1: Basic Navigation
+% Try these commands while in normal mode:
+% h, j, k, l - move cursor left, down, up, right
+% w, b - move forward/backward by word
+% 0, $ - move to beginning/end of line
+% gg, G - move to beginning/end of file
+%==============================================================================
+
+\section{Part 1: Vim Basics for LaTeX Editing}
+
+\subsection{Essential Vim Commands}
+
+\exercise{1} Navigate to this line using \vimcmd{/Exercise 1} (search), then:
+\begin{itemize}
+    \item Delete this line using \vimcmd{dd}
+    \item FIXME: This line has an error - fix it using \vimcmd{cw} (change word)
+    \item Duplicate this line using \vimcmd{yy} then \vimcmd{p}
+\end{itemize}
+
+%==============================================================================
+% VIM EXERCISE 2: Text Objects in LaTeX
+% ci{ - change inside braces
+% da$ - delete around dollar signs (math mode)
+% vi[ - visually select inside brackets
+%==============================================================================
+
+\exercise{2} Practice with LaTeX-specific text objects:
+
+Fix this equation: $x^2 + 2x + 1 = (x + 1)^{CHANGE_ME}$
+
+Hint: Use \vimcmd{f\{} to find the brace, then \vimcmd{ci\{} to change inside braces.
+
+\subsection{Efficient LaTeX Editing Patterns}
+
+\exercise{3} Transform the following list using Vim macros:
+% Record a macro with qa...q, then replay with @a
+
+% START_LIST (transform these into \item entries)
+Linear Algebra
+Calculus III  
+Abstract Algebra
+Real Analysis
+% END_LIST
+
+% Your macro should:
+% 1. qa (start recording)
+% 2. 0i\item <Esc> (insert \item at beginning)
+% 3. j (go to next line)
+% 4. q (stop recording)
+% 5. 3@a (replay 3 times)
+
+%==============================================================================
+% VIM EXERCISE 4: Search and Replace
+% :%s/old/new/g - replace all occurrences
+% :5,10s/old/new/g - replace in lines 5-10
+%==============================================================================
+
+\section{Part 2: Introduction to SageTeX}
+
+\subsection{Basic Computations}
+
+\exercise{4} Uncomment and modify the following SageTeX computations:
+
+% \begin{sagesilent}
+% # Define variables for reuse
+% a = 5
+% b = 12
+% c = sqrt(a**2 + b**2)
+% \end{sagesilent}
+
+The Pythagorean triple: $a = \sage{a}$, $b = \sage{b}$, $c = \sage{c}$
+
+\exercise{5} Create a multiplication table using Sage:
+
+\begin{sagesilent}
+# Create a 5x5 multiplication table
+n = 5
+mult_table = [[i*j for j in range(1, n+1)] for i in range(1, n+1)]
+\end{sagesilent}
+
+% Use Vim to duplicate and modify this line for different sizes
+Multiplication Table ($\sage{n} \times \sage{n}$):
+
+\[
+\sage{matrix(mult_table)}
+\]
+
+%==============================================================================
+% VIM EXERCISE 5: Visual Block Mode
+% Ctrl+V - enter visual block mode
+% I - insert at beginning of block
+% A - append at end of block
+%==============================================================================
+
+\subsection{Calculus with Sage}
+
+\exercise{6} Add derivative and integral using visual block editing:
+
+\begin{sagesilent}
+f(x) = x^3 - 3*x^2 + 2*x
+df = diff(f, x)
+intf = integrate(f, x)
+critical_points = solve(df == 0, x)
+\end{sagesilent}
+
+% Add % signs at the beginning of these lines using Ctrl+V
+Function: $f(x) = \sage{f(x)}$
+Derivative: $f'(x) = \sage{df}$
+Integral: $\int f(x)\,dx = \sage{intf} + C$
+Critical points: $\sage{critical_points}$
+
+\section{Part 3: Advanced Examples}
+
+\subsection{Plotting with SageTeX}
+
+\exercise{7} Modify plot parameters using Vim's substitute command:
+
+\begin{sagesilent}
+# Change these parameters using Vim
+xmin, xmax = -3, 3
+ymin, ymax = -2, 5
+plot_color = 'blue'  # Try: red, green, purple
+
+p = plot(f(x), (x, xmin, xmax), 
+         color=plot_color, 
+         thickness=2,
+         title='Cubic Function')
+\end{sagesilent}
+
+\sageplot[width=0.5\textwidth]{p}
+
+\subsection{Linear Algebra Computations}
+
+\exercise{8} Create and manipulate matrices:
+
+\begin{sagesilent}
+# Define a matrix
+A = matrix([[1, 2, 3], 
+            [4, 5, 6], 
+            [7, 8, 10]])
+            
+det_A = A.det()
+inv_A = A.inverse()
+eigen = A.eigenvalues()
+\end{sagesilent}
+
+Matrix $A = \sage{A}$
+
+% Practice: Use . command to repeat last edit
+Determinant: $\det(A) = \sage{det_A}$
+% ADD_LINE_HERE: Inverse matrix
+% ADD_LINE_HERE: Eigenvalues
+
+\subsection{Number Theory Example}
+
+\exercise{9} Explore prime numbers:
+
+\begin{sagesilent}
+def goldbach_pairs(n):
+    """Find all pairs of primes that sum to n"""
+    if n % 2 != 0 or n < 4:
+        return []
+    pairs = []
+    for p in prime_range(2, n//2 + 1):
+        if is_prime(n - p):
+            pairs.append((p, n-p))
+    return pairs
+
+test_number = 100
+pairs = goldbach_pairs(test_number)
+\end{sagesilent}
+
+Goldbach pairs for \sage{test_number}: \sage{pairs}
+
+%==============================================================================
+% VIM EXERCISE 6: Registers and Marks
+% "ayy - yank line into register a
+% "ap - paste from register a
+% ma - set mark a
+% 'a - jump to mark a
+%==============================================================================
+
+\section{Part 4: Mini-Project}
+
+\exercise{10} Complete this template for a mathematical exploration:
+
+\begin{sagesilent}
+# YOUR TOPIC: Fibonacci Sequence Analysis
+# TODO: Complete this code using Vim
+
+def fibonacci(n):
+    """Generate first n Fibonacci numbers"""
+    fib = [0, 1]
+    # Use Vim to complete this function
+    # Hint: Use >> to indent, << to dedent
+    return fib[:n]
+
+# Analyze the sequence
+fib_sequence = fibonacci(10)
+# golden_ratio = 
+# ratio_convergence = 
+\end{sagesilent}
+
+% Create your analysis here using Vim and SageTeX
+
+\section{Vim Cheat Sheet for LaTeX}
+
+\begin{tabular}{ll}
+\hline
+\textbf{Command} & \textbf{Description} \\
+\hline
+\vimcmd{:w} & Save file \\
+\vimcmd{:!pdflatex \%} & Compile current file \\
+\vimcmd{:!sage \%} & Process SageTeX \\
+\vimcmd{/\\section} & Search for sections \\
+\vimcmd{ci\{} & Change inside braces \\
+\vimcmd{dat} & Delete around tag \\
+\vimcmd{gq} & Format paragraph \\
+\vimcmd{\%} & Jump between matching delimiters \\
+\vimcmd{:set spell} & Enable spell checking \\
+\vimcmd{z=} & Suggest spelling corrections \\
+\hline
+\end{tabular}
+
+\section{Compilation Workflow}
+
+To compile this document with SageTeX:
+\begin{enumerate}
+    \item \texttt{pdflatex workshop.tex} (initial compilation)
+    \item \texttt{sage workshop.sagetex.sage} (process Sage code)
+    \item \texttt{pdflatex workshop.tex} (final compilation)
+\end{enumerate}
+
+In Vim, you can create a macro for this:
+\begin{verbatim}
+:!pdflatex % && sage %.sagetex.sage && pdflatex %
+\end{verbatim}
+
+\section*{Challenge Problems}
+
+\exercise{Challenge 1} Use Vim macros to create a table of derivatives:
+
+% Start with these functions and create a formatted table
+% f(x) = x^n for n = 1, 2, 3, 4, 5
+
+\exercise{Challenge 2} Create a SageTeX visualization of the Newton-Raphson method:
+
+\begin{sagesilent}
+# Implement Newton's method here
+# def newton_method(f, df, x0, iterations):
+#     pass
+\end{sagesilent}
+
+\exercise{Challenge 3} Use Vim's visual block mode to create a matrix in LaTeX:
+
+% Transform this into a proper LaTeX matrix:
+% 1 0 0 0
+% 0 1 0 0  
+% 0 0 1 0
+% 0 0 0 1
+
+\section*{Additional Resources}
+
+\begin{itemize}
+    \item Vim Adventures: \url{https://vim-adventures.com/}
+    \item SageMath Documentation: \url{https://doc.sagemath.org/}
+    \item SageTeX Tutorial: \url{https://doc.sagemath.org/html/en/tutorial/sagetex.html}
+    \item LaTeX Wikibook: \url{https://en.wikibooks.org/wiki/LaTeX}
+\end{itemize}
+
+\section*{Workshop Feedback}
+
+% Use Vim to quickly comment/uncomment these lines
+Rate your comfort level (1-5):
+\begin{itemize}
+    \item Vim navigation: \_\_\_
+    \item Vim text objects: \_\_\_
+    \item SageTeX basics: \_\_\_
+    \item Combining both tools: \_\_\_
+\end{itemize}
+
+\end{document}

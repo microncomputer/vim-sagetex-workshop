@@ -1,0 +1,35 @@
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.sagetex.*
+*.sage.py
+*.sage-backup
+
+# PDF files (optional - comment out if you want to include PDFs)
+# *.pdf
+
+# Backup files
+*~
+*.backup
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.swp
