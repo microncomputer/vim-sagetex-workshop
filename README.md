@@ -127,7 +127,15 @@ Feel free to fork this repository and adapt it for your own workshops! Pull requ
 
 ## 📄 License
 
-This workshop material is provided under the MIT License. Use freely for educational purposes!
+This workshop material is free software licensed under the [GNU General Public License v3.0](LICENSE). 
+
+You are free to:
+- Use the material for any purpose
+- Modify and adapt it for your needs
+- Share it with others
+- Use it commercially
+
+Under the condition that any modifications or derivatives remain under the same GPLv3 license, ensuring educational materials stay free and open source.
 
 ---
 
