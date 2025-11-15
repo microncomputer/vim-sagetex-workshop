@@ -1,6 +1,6 @@
 # Vim + SageTeX Interactive Workshop
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/HEAD?urlpath=lab)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/microncomputer/vim-sagetex-workshop/HEAD?urlpath=lab)
 
 ## 🚀 Instant Access - No Installation Required!
 
@@ -56,7 +56,7 @@ This is an interactive workshop that teaches mathematics students how to:
 
 1. **Fork this repository** or create your own
 2. **Edit `vim_sagetex_workshop.tex`** to customize exercises
-3. **Update this README** - change YOUR_GITHUB_USERNAME and YOUR_REPO_NAME in the badge
+3. **Update this README** - change microncomputer and vim-sagetex-workshop in the badge
 4. **Go to** [mybinder.org](https://mybinder.org) and enter your repository URL
 5. **Share** the generated Binder link with participants
 
