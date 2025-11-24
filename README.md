@@ -1,6 +1,8 @@
+# This project is not complete or ready for use. 
+~I am building this with the assistance of claude AI~
+
 # Vim + SageTeX Interactive Workshop
 
-This project is not complete or ready for use. I am building this with the assistance of claude AI.
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/microncomputer/vim-sagetex-workshop/HEAD?urlpath=lab)
 
