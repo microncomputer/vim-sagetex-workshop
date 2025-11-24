@@ -1,5 +1,5 @@
 # This project is not complete or ready for use. 
-~I am building this with the assistance of claude AI~
+\~I am building this with the assistance of claude AI\~
 
 # Vim + SageTeX Interactive Workshop
 
